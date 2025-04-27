@@ -1,0 +1,70 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © sheep-trader
+
+//@version=6
+//@version=5
+indicator(title="BB Envelope", shorttitle="BB Env 1D", overlay=true)
+
+var table tips = table.new(position.top_right, 1, 9), display=display.none
+//table.cell(tips, 0, 0, str.tostring("Find best fit moving average, then find % that captures all PA at U20 L20"),0,0,color.black,text.align_right)
+//table.cell(tips, 0, 1, str.tostring("Remove bands until the band that the PA always bounces from is found at minimum (usually highest numbers downward in Style)"),0,0,color.black,text.align_right)
+//table.cell(tips, 0, 2, str.tostring("Remove bands until the zone that the PA always consolidates from is found at maximum (usually lowest numbers upward in Style)"),0,0,color.black,text.align_right)
+table.cell(tips, 0, 0, str.tostring("FX 1D/50 20 20 40 40/200 35 35 70 70"),0,0,color.gray,text.align_right)
+table.cell(tips, 0, 1, str.tostring("NQ 1D/40 25 50 50 100/250 80 80 150 125"),0,0,color.gray,text.align_right)
+table.cell(tips, 0, 2, str.tostring("BTC 1D/50 100 100 200 200/200 500 250 250 125"),0,0,color.gray,text.align_right)
+//table.cell(tips, 0, 6, str.tostring(""),0,0,color.black,text.align_right)
+//table.cell(tips, 0, 7, str.tostring(""),0,0,color.black,text.align_right)
+//table.cell(tips, 0, 8, str.tostring(""),0,0,color.black,text.align_right)
+
+len = input.int(200, title="Length", minval=1)
+in1 = input(35.0)
+in2 = input(35.0)
+in3 = input(70.0)
+in4 = input(70.0)
+percent1 = in1/10
+percent2 = in2/10
+percent3 = in3/10
+percent4 = in4/10
+
+src = input(close, title="Source")
+exponential = input(false)
+basis = exponential ? ta.ema(src, len) : ta.sma(src, len)
+
+upper = basis * (1 + (percent1 * 2/100.0))
+lower = basis * (1 - (percent2 * 2/100.0))
+upper1 = basis * (1 + (percent3 * 2/100.0))
+lower2 = basis * (1 - (percent4 * 2/100.0))
+
+plot(basis, "Basis", color=color.rgb(33, 149, 243, 50), linewidth=4)
+
+u = plot(upper, "Upper", color=color.rgb(33, 149, 243, 50), linewidth=1)
+l = plot(lower, "Lower", color=color.rgb(33, 149, 243, 50), linewidth=1)
+u1 = plot(upper1, "Upper1", color=color.rgb(33, 149, 243, 50), linewidth=1)
+l2 = plot(lower2, "Lower1", color=color.rgb(33, 149, 243, 50), linewidth=1)
+
+//===========================================================================================================================================
+len1 = input.int(1000, title="Long Term Length", minval=1)
+
+basis1 = exponential ? ta.ema(src, len1) : ta.sma(src, len1)
+
+in1a = input(50.0)
+in2a = input(50.0)
+in3a = input(100.0)
+in4a = input(100.0)
+
+percent1a = in1a/10
+percent2a = in2a/10
+percent3a = in3a/10
+percent4a = in4a/10
+
+uppera = basis1 * (1 + (percent1a * 2/100.0))
+lowera = basis1 * (1 - (percent2a * 2/100.0))
+upper1a = basis1 * (1 + (percent3a * 2/100.0))
+lower2a = basis1 * (1 - (percent4a * 2/100.0))
+
+plot(basis1, "Basis", color=color.rgb(255, 153, 0, 50), linewidth=4)
+
+ua = plot(uppera, "Upper", color=color.rgb(255, 153, 0, 50), linewidth=1)
+la = plot(lowera, "Lower", color=color.rgb(255, 153, 0, 50), linewidth=1)
+u1a = plot(upper1a, "Upper1", color=color.rgb(255, 153, 0, 50), linewidth=1)
+l2a = plot(lower2a, "Lower1", color=color.rgb(255, 153, 0, 50), linewidth=1)
