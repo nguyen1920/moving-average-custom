@@ -4,3 +4,4 @@ This project is to demonstrate automatic trades using any moving averages and ho
 # moving-average-custom
 # moving-average-custom
 # moving-average-custom
+# moving-average-custom
